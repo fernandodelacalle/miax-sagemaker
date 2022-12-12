@@ -1,6 +1,6 @@
-%%writefile code/tensorflow_sentiment.py
 import logging
 logging.getLogger("tensorflow").setLevel(logging.ERROR)
+
 import argparse
 import codecs
 import json
@@ -8,12 +8,14 @@ import numpy as np
 import os
 import tensorflow as tf
 
+
 max_features = 20000
 maxlen = 400
 embedding_dims = 300
 filters = 256
 kernel_size = 3
 hidden_dims = 256
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -52,7 +54,6 @@ def get_train_data(train_dir):
     x_train = np.load(os.path.join(train_dir, 'x_train.npy'))
     y_train = np.load(os.path.join(train_dir, 'y_train.npy'))
     print(f'x train {x_train.shape} y train {y_train.shape}')
-
     return x_train, y_train
 
 
@@ -60,7 +61,6 @@ def get_test_data(test_dir):
     x_test = np.load(os.path.join(test_dir, 'x_test.npy'))
     y_test = np.load(os.path.join(test_dir, 'y_test.npy'))
     print(f'x test {x_test.shape} y test {y_test.shape}')
-
     return x_test, y_test
 
 
@@ -95,10 +95,12 @@ if __name__ == "__main__":
 
     model = get_model(args)
 
-    history = model.fit(x_train, y_train,
-              batch_size=args.batch_size,
-              epochs=args.epochs,
-              validation_data=(x_test, y_test))
+    history = model.fit(
+        x_train, y_train,
+        batch_size=args.batch_size,
+        epochs=args.epochs,
+        validation_data=(x_test, y_test)
+    )
 
     save_history(args.model_dir + "/history.p", history)
     
